@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日清单</title>
+    <style>
+        *{
+            margin: 0;padding: 0;
+            box-sizing: border-box
+        }
+        
+        body{
+            background-color: #ccc;
+        }
+        header{
+            width: 100%;
+            height: 50px;
+            background-color:rgba(0, 0, 0, .7);
+        }
+        header>div{
+            /* overflow: hidden; */
+            width: 500px;
+            /* border: 1px solid red; */
+            margin: 0px auto;
+        }
+        header>div>label{
+            float: left;
+            line-height: 50px;
+            font-size: 20px;
+            color: #fff;
+        }
+        header>div>input{
+            outline: none;
+            float: right;
+            margin-top: 10px;
+            height: 30px;
+        }
+        header>div>button{
+            color: brown;
+            font-weight: 600;
+            font-size: 15px;
+            font-family: '微软雅黑';
+            width: 50px;
+            float: right;
+            margin-top: 10px;
+            height: 30px;
+        }
+        .warp{
+            overflow: hidden;
+            width: 600px;
+            /* border: 1px solid red; */
+            margin: 0px auto;
+        }
+       ol,ul{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        padding:0 7px;
+        background-color: #fff;
+        border-radius: 10px;
+        
+        }
+        ol li,ul li{
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          /* border-radius: 10px; */
+          /* background-color: rebeccapurple; */
+          border-bottom:1px solid #ccc ;
+          margin: 0 auto;
+            margin-top: 2px;
+        }
+        .yes,.no{
+            margin: 5px auto;
+            color: rgb(70, 70, 240);
+        }
+        .no{
+            color: green;
+        }
+        input[type=checkbox]{
+            width: 20px;
+            height: 20px;
+            font-size: 13px;
+            outline: none;
+            appearance: none;
+        }
+        input[type=checkbox]::after{
+            content: '';
+            border-radius: 50%;
+            display: block;
+            box-sizing: border-box;
+            border: 1px solid #cccccc;
+            width: 20px;
+            /* background-color: blue; */
+            height: 20px;
+        }
+        ol input[type=checkbox]::after{
+            background-color:  rgb(109, 109, 243);
+        }
+        input[type=checkbox]:checked:after{
+            /* padding: 2px 2px 2px 2px; */
+            content: '✔';
+            text-align: center;
+            background-color: blue;
+            line-height: 21x;
+            /* font-size: 20px; */
+            color: #fff;
+        }
+       ul li input[type=checkbox]:checked:after{
+            /* padding: 2px 2px 2px 2px; */
+            content: '✔';
+            text-align: center;
+            background-color: green;
+            line-height: 21x;
+            /* font-size: 20px; */
+            color: #fff;
+        }
+        ol li span,ul li span{
+            padding-left: 10px;
+            flex: 1;
+        }
+        ol li a,ul li a{
+            /* border: 1px solid #ccc; */
+            /* margin-right: 10px; */
+            text-decoration: none;
+            cursor: pointer;
+            text-align: center;
+            line-height: 15px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            color: brown;
+        }
+        h4>span{
+            color: rgb(116, 115, 115);
+            font-size: 12px;
+            display: block;
+            width: 20px;
+            height: 15px;
+            line-height: 15px;
+            text-align: center;
+            margin-top: 5px;
+            border-radius: 42%;
+            background-color: #fff;
+            margin-right: 6px;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="warp"><label for="jl">记录代办事项</label><input type="text" id="jl"><button class="but">记录</button></div>
+    </header>
+    <h4 class="warp yes">代办事项<span class="nosx"></span></h4>
+    <ol class="warp"></ol>
+    <h4 class="warp no">已完成<span class="yessx"></span></h4>
+    <ul class="warp"></ul>
+</body>
+<script>
+    //一点击记录或者回车就获取localStorage数据
+    var but = document.querySelector('.but');
+    var text = document.querySelector('input[id=jl]')
+    but.addEventListener('click',function(){
+       if(text.value == ''){
+        alert('你还没记录事件')
+       }else{
+        var data = getdata();
+        data.unshift({tilte: text.value,flag:'flase'})
+        updata(data)
+        loaddata()
+        text.value = '';
+       }
+    })
+    //按回车健也是一样
+    text.addEventListener('keyup',function(e){
+        if(text.value == ''){
+            e.preventDefault();
+        }else{
+       if(e.keyCode === 13){
+        var data = getdata();
+        data.unshift({tilte: text.value,flag:'flase'})
+        updata(data)
+        loaddata()
+        text.value = '';
+       }else{
+        return '请输入内容'
+       }
+    }
+    })
+    //取数据函数
+    function getdata(){
+        if(localStorage.getItem('data')!==null){
+            return JSON.parse(localStorage.getItem('data'));
+        }else{
+            return [];
+        }
+    }
+    //保存更新数据loaclStorage函数
+    function updata(data){
+        localStorage.setItem('data',JSON.stringify(data))
+    }
+    //页面渲染添加li函数
+    var ol = document.querySelector('ol');
+    var ul = document.querySelector('ul');
+    //数量的定义
+    var nonum = 0;
+    var yesnum = 0;
+    var nosx = document.querySelector('.nosx')
+    var yessx = document.querySelector('.yessx')
+    function loaddata(){
+       var data= getdata();
+       //渲染之前先清空li、避免出现反复添加;
+       ol.innerHTML = '';
+       ul.innerHTML = '';
+       nonum = 0;
+       yesnum = 0;
+       for(var k in data){
+        var input = document.createElement('input')
+        input.type = 'checkbox';
+        input.setAttribute('index',k)
+        var span = document.createElement('span')
+        span.innerHTML = data[k].tilte;
+        span.setAttribute('index',k)
+        var a =document.createElement('a')
+        a.innerHTML = '❌'
+        a.setAttribute('index',k)
+        var li =document.createElement('li');
+        li.appendChild(input)
+        // console.log(li);
+        li.appendChild(span)
+        // console.log(li);
+        li.appendChild(a)
+        // console.log(li)
+        if(data[k].flag == true){
+            ul.appendChild(li)
+            yesnum++;
+            input.checked = true;  
+        }else{
+        ol.appendChild(li)
+        nonum++;
+        }
+       }
+        nosx.innerHTML = nonum;
+        yessx.innerHTML = yesnum;
+       //选中checked，让对应的flag等于当前的checked状态，
+       //关键是重新渲染页面，加一个判断flag=true就加再ul里否则就ol里
+       var olinputbtn = ol.querySelectorAll('input[type=checkbox]')
+       var olspan = ol.querySelectorAll('span');
+       olfengz(olinputbtn);
+       olfengz(olspan);
+       //ul的事件与span
+       var ulinputbtn = ul.querySelectorAll('input[type=checkbox]')
+       var ulspan = ul.querySelectorAll('span');
+       ulfengz(ulinputbtn);
+       ulfengz(ulspan);
+       
+       //因为每一次都是渲染数据所以捕获的删除按钮就是新的，所以写再渲染里面达到更新按钮
+       //数据一渲染我就重新捕获按钮，加单击删除事件。
+    var dilitibtn = document.querySelectorAll('a');
+     for(var i=0;i<dilitibtn.length;i++){
+        dilitibtn[i].addEventListener('click',function(){
+        let data = getdata();
+        data.splice(this.getAttribute('index'),1);
+        updata(data)
+        loaddata()
+        })
+     }
+    }
+    //页面一打开就渲染，所以直接调用
+    loaddata()
+    //ol函数
+    function olfengz(apljieko){
+        for(var j=0;j<apljieko.length;j++){
+            apljieko[j].addEventListener('click',function(){
+            let data = getdata();
+            data[this.getAttribute('index')].flag = true;
+            updata(data)
+            loaddata()
+        })
+        //span点击事件
+        //点击span也是一样这里我们分两类ol的span点击让checkbox为选中状态ul的span则相反
+        apljieko[j].addEventListener('click',function(){
+            let data = getdata();
+            data[this.getAttribute('index')].flag = true;
+            updata(data)
+            loaddata()
+        })
+       }
+    }
+    //ul函数
+    function ulfengz(apljieko){
+        for(var j=0;j<apljieko.length;j++){
+            apljieko[j].addEventListener('click',function(){
+            let data = getdata();
+            data[this.getAttribute('index')].flag = false;
+            updata(data)
+            loaddata()
+        })
+        //span点击事件
+        //点击span也是一样这里我们分两类ol的span点击让checkbox为选中状态ul的span则相反
+        apljieko[j].addEventListener('click',function(){
+            let data = getdata();
+            data[this.getAttribute('index')].flag = false;
+            updata(data)
+            loaddata()
+        })
+       }
+    }
+</script>
+</html>

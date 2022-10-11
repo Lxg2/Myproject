@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        form{
+            width: 510px;
+            height: 100px;
+            margin: 100px auto;
+            border: 1px solid royalblue;
+            border-radius: 10px;
+            /* padding: 10px auto; */
+            text-align: center;
+            line-height: 40px;
+        }
+        form span{
+            color: #ccc;
+            color: red;
+            font-size: 12px;
+            display: inline-block;
+            width: 254.9px;
+           visibility: hidden;
+        }
+        .pwscolor{
+            visibility: visible;
+        }
+.pwscolor>i{font-size: 12px;
+    color: black;
+    text-align: center;
+    line-height: 18px;
+    display: inline-block;
+    width: 30%;
+    margin-left: 2px;
+    height: 20px;
+    box-sizing: border-box;
+    background-color: #ccc;
+
+}
+.pwscolor>i:nth-child(1).bacolor{
+    background-color: red;
+}
+.pwscolor>i:nth-child(2).bacolor{
+    background-color: green;
+}
+.pwscolor>i:nth-child(3).bacolor{
+    background-color: yellow;
+}
+i{
+   font-style: normal;
+   vertical-align: middle;
+}
+
+    </style>
+    <link rel="stylesheet" href="font_3625087_s3lwtrjxowm/iconfont.css">
+</head>
+<body>
+    <form action="#">
+        <label>
+            用户名: <input type="text" name="texturse">
+            <i class="iconfont"></i>
+            <span>不能下划线开头或包含特殊字符,请输入正确格式</span>
+        </label>
+        <label>
+            密&nbsp;&nbsp; 码: <input type="password" name="pwsurse">
+            <span class="pwscolor"><i>弱</i><i>中</i><i>强</i></span>
+        </label>
+    </form>
+</body>
+<script>
+    //创建正则判断用户输入格式是否正确
+    const reg = /^[0-9a-zA-Z]\w{5,11}$/
+    var input = document.querySelector('input[name = texturse]')
+    var i = document.querySelector('i')
+    var timer = null;
+    var span = document.querySelector('span')
+    input.addEventListener('input',function(){
+        clearTimeout(timer)
+     timer= setTimeout(()=>{
+        if(reg.test(this.value)){
+        i.classList.add('icon-zhengque');
+        i.classList.remove('icon-cuowu')
+        span.style.visibility = 'hidden'
+        i.style.color = 'green'
+        // i.classList.remove('nofontcolor')
+      }  else{
+        i.classList.add('icon-cuowu')
+        i.classList.remove('icon-zhengque');
+        // i.classList.remove('yesfontcolor')
+        i.style.color = 'red'
+        span.style.visibility = 'visible'
+      }
+      },300)
+    })
+    //用户输入密码判断强度并显示
+    //用来判断的正则
+    const r = /\d+/;
+    const z = /[a-z]+/i;
+    const q = /[\!\@\#\$\%\^\&\*]+/
+    var is = document.querySelector('.pwscolor').children; 
+    var pws = document.querySelector('input[name = pwsurse]');
+    pws.addEventListener('input',function(){
+        for(var j=0;j<is.length;j++){
+            is[j].classList.remove('bacolor')
+        }        
+        var num = 0;
+    var text = this.value;
+    if(r.test(text)) num++;
+    if(z.test(text)) num++;
+    if(q.test(text)) num++;
+    for(var i=0;i<num;i++){
+        is[i].classList.add('bacolor');
+    }
+    })
+</script>
+</html>

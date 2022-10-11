@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+        .box{
+            position: relative;
+            margin: 10px auto;
+            width: 723px;
+            height: 723px;
+            /* border: 1px solid red; */
+            /* background: url(image/1.jpg) no-repeat; */
+            /* background-color: palevioletred; */
+            /* perspective: 800px; */
+        }
+        .box>div{
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: perspective(800px) ;
+            transition: all 2s;
+           /* border: 1px solid rebeccapurple; */
+          
+        }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+    <script>
+        var box = document.querySelector('.box')
+        // var x = 7;
+        // var y = 10;
+        function span(x,y){
+            for(var i=0;i<x;i++){
+                for(var j=0;j<y;j++){
+                var lspan = document.createElement('div');
+                lspan.style.width = box.offsetWidth/y+'px';
+                lspan.style.height = box.offsetHeight/x+'px';
+                lspan.style.left = box.offsetWidth/y*j+'px'
+                lspan.style.top = box.offsetHeight/x*i+'px';
+                lspan.style.background = 'url(image/1.jpg) no-repeat';
+                lspan.style.backgroundPositionX =  box.offsetWidth/y*-j+'px';
+                lspan.style.backgroundPositionY =  box.offsetWidth/x*-i+'px';
+                box.appendChild(lspan);
+                }
+            }
+        }
+        span(7,10)
+        var spans = box.children;
+       box.addEventListener('click',function(){
+        for(var i=0;i<spans.length;i++){
+            spans[i].style.transform = 'rotateX('+(Math.random()*360-180)+'deg) rotateY('+(Math.random()*360-180)+'deg) translateX('+(Math.random()*400-200)+'px) translateY('+(Math.random()*400-200)+'px) translateZ('+(Math.random()*200+100)+'px)'
+            spans[i].style.opacity = 0;
+            // console.log(Math.random()*360-180);
+        }
+       })
+    </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div{
+           width: 820px;
+           height: 40px;
+           margin: 10px auto;
+           line-height: 40px;
+        }
+        table{
+            width: 800px;
+            margin: 10px auto;
+            border-collapse: collapse;
+            text-align: center;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="sxdata">
+        最低价<input type="text" name="" id="jg"> -
+        <input type="text" name="" id="jg-jg">最高价 <button class="but1">查找</button>
+        <label for="jg">输入型号查找</label><input type="text" name="" id="xh">
+        <button class="but2">查找</button>
+    </div>
+    <table border="1px" cellpadding="10px" cellspacing="0">
+       <thead>
+        <tr>
+            <th>ID</th>
+            <th>手机型号</th>
+            <th>价格</th>
+        </tr>
+       </thead>
+      <tbody class="tablebody">
+
+      </tbody>
+    </table>
+    <script>
+        var data = [
+            {
+                id:1,
+                xh:'小米',
+                jk:2000
+            },
+            {
+                id:2,
+                xh:'华为',
+                jk:1000
+            },
+            {
+                id:3,
+                xh:'oppo',
+                jk:1899
+            },
+            {
+                id:4,
+                xh:'vivo',
+                jk:2550
+            }
+        ]
+        // 获取数据
+        var tablebody = document.querySelector('.tablebody');
+        var input1 = document.querySelector('#jg')
+        var input2 = document.querySelector('#jg-jg')
+        var input3 = document.querySelector('#xh')
+        var but1 = document.querySelector('.but1')
+        var but2 = document.querySelector('.but2')
+        console.log(input3);
+        //一利用forEach渲染数组对象;因为需要修改渲染的值所以写成函数;
+        function xrdata(data){
+            //下面筛选出来的data需要重新渲染所以我们先清除tbody
+            tablebody.innerHTML = '';
+            data.forEach(function(value){
+                tablebody.insertAdjacentHTML("beforeend","<tr><td>"+ value.id+"</td><td>"+ value.xh+"</td><td>"+ value.jk+"</td></tr>")
+            })
+        }
+        //页面加载就调用;
+        xrdata(data)
+        //二 根据输入的数据来判断更新数组;
+        but1.addEventListener('click',function(){
+           var newdata =  data.filter(function(value){
+            return value.jk>=input1.value && value.jk<=input2.value
+            })
+            console.log(newdata);
+            if(newdata == ''){
+                alert('没有查到价格范围内的产品')
+                
+                }else{
+                  xrdata(newdata)
+                }
+             
+        })
+        //根据商品名称输入查询用到查询唯一的值some
+        but2.addEventListener('click',function(){
+            var nwedataarr=[];
+          var s=data.some(function(value){
+              if(value.xh == input3.value){
+                nwedataarr.push(value);
+                return true;
+              }else{
+                return false;
+              }
+            })
+            if(s){
+               xrdata(nwedataarr)
+            }else{
+                 alert('没有查到价格范围内的产品')
+            }
+            
+        })
+    </script>
+</body>
+</html>

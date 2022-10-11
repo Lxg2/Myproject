@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>生日快乐</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            overflow-x: hidden;
+            height: 100%;
+            background-color: #545ff2;
+            font-size: 40px;
+        }
+
+        .btn {
+            width: 90%;
+            height: 400px;
+            position: absolute;
+            box-sizing: border-box;
+            line-height: 1.5em;
+            font-family: '黑体';
+            font-size: .8em;
+            color: #ffffff;
+            text-align: center;
+            top: 40%;
+            left: 50%;
+            transform: translateY(-50%) translateX(-50%);
+            border-radius: 50px;
+            background: #545ff2;
+            box-shadow: 20px 20px 30px #4751ce,
+                -20px -20px 30px #616dff;
+        }
+
+        .rocker {
+            position: relative;
+            margin-top: 500px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: inline-block;
+            font-size: 2em;
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
+            color: #888;
+            width: 7em;
+            height: 4em;
+            overflow: hidden;
+            border-bottom: 0.5em solid #eee;
+        }
+
+        .rocker-small {
+            font-size: 0.75em;
+            /* Sizes the switch */
+            /* margin: 1em; */
+        }
+
+        .rocker::before {
+            content: "";
+            position: absolute;
+            top: 0.5em;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #999;
+            border: 0.5em solid #eee;
+            border-bottom: 0;
+        }
+
+        .rocker input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .switch-left,
+        .switch-right {
+            cursor: pointer;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 2.5em;
+            width: 3em;
+            transition: 0.2s;
+            user-select: none;
+        }
+
+        .switch-left {
+            height: 2.4em;
+            width: 2.75em;
+            left: 0.85em;
+            bottom: 0.4em;
+            background-color: #ddd;
+            transform: rotate(15deg) skewX(15deg);
+        }
+
+        .switch-right {
+            right: 0.5em;
+            bottom: 0;
+            background-color: #bd5757;
+            color: #fff;
+        }
+
+        .switch-left::before,
+        .switch-right::before {
+            content: "";
+            position: absolute;
+            width: 0.4em;
+            height: 2.45em;
+            bottom: -0.45em;
+            background-color: #ccc;
+            transform: skewY(-65deg);
+        }
+
+        .switch-left::before {
+            left: -0.4em;
+        }
+
+        .switch-right::before {
+            right: -0.375em;
+            background-color: transparent;
+            transform: skewY(65deg);
+        }
+
+        input:checked+.switch-left {
+            background-color: #0084d0;
+            color: #fff;
+            bottom: 0px;
+            left: 0.5em;
+            height: 2.5em;
+            width: 3em;
+            transform: rotate(0deg) skewX(0deg);
+        }
+
+        input:checked+.switch-left::before {
+            background-color: transparent;
+            width: 3.0833em;
+        }
+
+        input:checked+.switch-left+.switch-right {
+            background-color: #ddd;
+            color: #888;
+            bottom: 0.4em;
+            right: 0.8em;
+            height: 2.4em;
+            width: 2.75em;
+            transform: rotate(-15deg) skewX(-15deg);
+        }
+
+        input:checked+.switch-left+.switch-right::before {
+            background-color: #ccc;
+        }
+
+        /* Keyboard Users */
+        input:focus+.switch-left {
+            color: #333;
+        }
+
+        input:checked:focus+.switch-left {
+            color: #fff;
+        }
+
+        input:focus+.switch-left+.switch-right {
+            color: #fff;
+        }
+
+        input:checked:focus+.switch-left+.switch-right {
+            color: #333;
+        }
+
+        .maxboxone {
+            /* width: 100%; */
+            display: none;
+            overflow: hidden;
+        }
+
+        .maxbox,
+        .orange,
+        .pink,
+        .bulr,
+        .biaoqing {
+            box-sizing: border-box;
+            padding: 1em;
+            line-height: 1.5em;
+            font-family: '黑体';
+            font-size: .7em;
+            color: #ffffff;
+            text-align: center;
+            width: 80%;
+            height: 400px;
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translateY(-50%) translateX(-50%);
+            border-radius: 50px;
+            background: paleturquoise;
+            transition: all .4s;
+        }
+
+        .maxbox {
+            padding: 0;
+            position: absolute;
+            left: 56%;
+            color: #bd5757;
+        }
+
+        .orange {
+            color: #e1f8e1;
+            background: #d47655;
+            position: absolute;
+            left: 54%;
+        }
+
+        .pink {
+            background-color: #ae9aab;
+            color: #f2ebe7;
+            position: absolute;
+            left: 52%;
+        }
+
+        .bulr {
+            background-color: #417ca9;
+            color: #edebf4;
+            /* display: none; */
+        }
+
+        .biaoqing {
+            background-color: #CCC;
+            position: absolute;
+            left: 56%;
+        }
+
+        h1 {
+            text-align: center;
+            height: 100px;
+            display: flex;
+            /* flex-wrap: wrap; */
+        }
+
+        h1 span {
+            text-align: center;
+            line-height: 80px;
+            width: 50%;
+            margin-top: 20%;
+            position: relative;
+            display: inline-block;
+            animation: bounce 1s ease infinite alternate;
+            font-family: 'Titan One', cursive;
+            font-size: 50px;
+            color: #FFF;
+            text-shadow: 0 1px 0 #CCC,
+                0 2px 0 #CCC,
+                0 3px 0 #CCC,
+                0 4px 0 #CCC,
+                0 5px 0 #CCC,
+                0 6px 0 transparent,
+                0 7px 0 transparent,
+                0 8px 0 transparent,
+                0 9px 0 transparent,
+                0 10px 10px rgba(0, 0, 0, .4);
+        }
+
+        h1 span:nth-child(2) {
+            animation-delay: .1s;
+        }
+
+        h1 span:nth-child(3) {
+            animation-delay: .2s;
+        }
+
+        h1 span:nth-child(4) {
+            animation-delay: .3s;
+        }
+
+        h1 span:nth-child(5) {
+            width: 100%;
+            animation-delay: .4s;
+        }
+
+
+        @keyframes bounce {
+            100% {
+                top: -10px;
+                text-shadow: 0 1px 0 #CCC,
+                    0 2px 0 #CCC,
+                    0 3px 0 #CCC,
+                    0 4px 0 #CCC,
+                    0 5px 0 #CCC,
+                    0 6px 0 #CCC,
+                    0 7px 0 #CCC,
+                    0 8px 0 #CCC,
+                    0 9px 0 #CCC,
+                    0 50px 25px rgba(0, 0, 0, .2);
+            }
+        }
+
+        .h4 {
+            position: absolute;
+            top: 48%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* From uiverse.io by @Voxybuns */
+        button {
+            /* Variables */
+            --button_radius: 0.75em;
+            --button_color: #e8e8e8;
+            --button_outline_color: #000000;
+            font-size: 17px;
+            font-weight: bold;
+            border: none;
+            border-radius: var(--button_radius);
+            background: var(--button_outline_color);
+        }
+
+        .button_top {
+            display: block;
+            box-sizing: border-box;
+            border: 2px solid var(--button_outline_color);
+            border-radius: var(--button_radius);
+            padding: 0.75em 1.5em;
+            background: var(--button_color);
+            color: var(--button_outline_color);
+            transform: translateY(-0.2em);
+            transition: transform 0.1s ease;
+        }
+
+        button:hover .button_top {
+            /* Pull the button upwards when hovered */
+            transform: translateY(-0.33em);
+        }
+
+        button:active .button_top {
+            /* Push the button downwards when pressed */
+            transform: translateY(0);
+        }
+
+        /* From uiverse.io by @pedertanberg */
+        .loader {
+            display: inline-block;
+            position: relative;
+            margin-top: 135px;
+            width: 80px;
+            height: 80px;
+            transform: rotate(45deg);
+            transform-origin: 40px 40px;
+        }
+
+        .loader div {
+            top: 32px;
+            left: 32px;
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            background: red;
+            animation: loader45 1.2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+
+        .loader div:after,
+        .loader div:before {
+            content: " ";
+            position: absolute;
+            display: block;
+            width: 32px;
+            height: 32px;
+            background: red;
+        }
+
+        .loader div:before {
+            left: -24px;
+            border-radius: 50% 0 0 50%;
+        }
+
+        .loader div:after {
+            top: -24px;
+            border-radius: 50% 50% 0 0;
+        }
+
+        @keyframes loader45 {
+            0% {
+                transform: scale(0.95);
+            }
+
+            5% {
+                transform: scale(1.1);
+            }
+
+            39% {
+                transform: scale(0.85);
+            }
+
+            45% {
+                transform: scale(1);
+            }
+
+            60% {
+                transform: scale(0.95);
+            }
+
+            100% {
+                transform: scale(0.9);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="btn">
+        <div class="loader">
+            <div></div>
+        </div>
+    </div>
+    <div class="maxboxone">
+        <div class="biaoqing">
+            看到这里就做完了,希望你天天开心，那偶尔不开心的时候，就当作是开心在加载中。哈哈哈👇。
+            <button>
+                <span class="button_top"> 拜拜🤚🤚
+                </span>
+            </button>
+        </div>
+        <div class="maxbox divs">
+            <h1>
+                <span>生</span>
+                <span>日</span>
+                <span>快</span>
+                <span>乐</span>
+                <h4 class="h4">🎈🎉🌹💖👈</h4>
+            </h1>
+        </div>
+        <div class="orange divs">
+            再然后呢，咱就是说要拒绝迷茫与焦虑。高低给你分享句文案吧【慢品人间烟火色，闲观万事岁月长。】哈哈哈文化水平只能到这样里了啊👈。
+        </div>
+        <div class="pink divs">
+            那就随便聊聊吧，很感谢能认识你，真的好久没有聊的这么开心，跟你说每次跟你聊天嘴角都是这样的😁👈。
+        </div>
+        <div class="bulr divs">
+            hello,咱就是说还不知道你叫啥，就叫你虞书欣吧。反正长得也挺像的，哈哈哈哈哈。后面还有很多话想对你说，往左滑哦👈。
+        </div>
+    </div>
+    <label class="rocker rocker-small">
+        <input type="checkbox">
+        <span class="switch-left" id="yes">Yes</span>
+        <span class="switch-right" id="no">No</span>
+    </label>
+</body>
+<script>
+    var yes = document.querySelector("#yes");
+    var no = document.querySelector('#no')
+    var maxboxone = document.querySelector(".maxboxone");
+    //所有的div
+    var divs = maxboxone.querySelectorAll('.divs');
+    var btn = document.querySelector('.btn')
+    yes.addEventListener('touchend', function () {
+        setTimeout(function () {
+            maxboxone.style.display = 'block';
+            btn.style.display = 'none'
+        }, 150)
+    })
+    no.addEventListener('touchstart', function () {
+        setTimeout(function () {
+            maxboxone.style.display = 'none';
+            btn.style.display = 'block'
+            location.reload();
+        }, 150)
+    })
+    //触摸点初始位置
+    var zuobiao = 0;
+    var x = 0;
+    //元素最开始的位置
+    var divleft = 0;
+    for (let i = 0; i < divs.length; i++) {
+        divs[i].addEventListener('touchstart', function (e) {
+            divleft = this.offsetLeft;
+            zuobiao = e.targetTouches[0].pageX;
+        })
+        divs[i].addEventListener('touchmove', function (e) {
+            x = (e.targetTouches[0].pageX) - zuobiao;
+            this.style.left = (divs[i].offsetLeft) + x + 'px';
+        })
+        divs[i].addEventListener('touchend', function () {
+            if (Math.abs(x) > 65) {
+                if (x > 0) {
+                    this.style.transition = 'all .3s'
+                    this.style.left = 999 + 'px'
+                    return;
+                }
+                this.style.transition = 'all .3s'
+                this.style.left = -999 + 'px'
+            } else {
+                this.style.transition = 'all .3s'
+                this.style.left = divleft + 'px';
+            }
+        })
+    }
+    //最后的退出
+    var bbbtn = document.querySelector('.button_top');
+    bbbtn.addEventListener('touchstart', function () {
+        window.close();
+    })
+</script>
+</html>
